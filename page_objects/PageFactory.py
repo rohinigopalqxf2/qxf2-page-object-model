@@ -15,10 +15,11 @@ from page_objects.tutorial_redirect_page import Tutorial_Redirect_Page
 from page_objects.contact_page import Contact_Page
 from page_objects.bitcoin_price_page import Bitcoin_Price_Page
 from page_objects.bitcoin_main_page import Bitcoin_Main_Page
+from page_objects.werfolks_page import Werfolks_page
 
 class PageFactory():
     "PageFactory uses the factory design pattern."
-    def get_page_object(page_name,base_url='http://qxf2.com/',trailing_slash_flag=True):
+    def get_page_object(page_name,base_url='https://www.werfolks.com',trailing_slash_flag=True):
         "Return the appropriate page object based on page_name"
         test_obj = None
         page_name = page_name.lower()
@@ -32,6 +33,8 @@ class PageFactory():
             test_obj = Bitcoin_Main_Page()    
         elif page_name == "bitcoin price page":
             test_obj = Bitcoin_Price_Page()
+        elif page_name == "werfolks login page":
+            test_obj = Werfolks_page()
         return test_obj
 
     get_page_object = staticmethod(get_page_object)

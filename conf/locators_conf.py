@@ -58,3 +58,28 @@ contact_name_field = "id,name"
 bitcoin_real_time_price_button = "xpath,//android.widget.TextView[@resource-id='com.dudam.rohan.bitcoininfo:id/current_price']"
 bitcoin_price_page_heading = "xpath,//android.widget.TextView[@text='Real Time Price of Bitcoin']"
 bitcoin_price_in_usd = "xpath,//android.widget.TextView[@resource-id='com.dudam.rohan.bitcoininfo:id/doller_value']"
+
+
+#locators for werfolks (werfolks_page.py)
+
+werfolks_username ="xpath,//*[@name='ID']" 
+werfolks_password ="xpath,//*[@name='Password']"
+werfolks_login ="xpath,//*[@id='bx-form-element-login']//*[contains(text(),'Log in')]"
+werfolks_profileicon ="xpath,//*[contains(@class,'bx-menu-toolbar-item-unit')]"
+werfolks_signout ="xpath,//*[contains(text(),'Sign out')]"
+
+werfolks_add_button ="xpath,//*[@id='bx-sliding-menu-account']//*[contains(text(),'Add')]"
+werfolks_add_post ="xpath,//*[@id='bx-sliding-menu-sys_add_content']//*[contains(text(),'Post')]"
+werfolks_newpost_heading = "xpath,//span[contains(text(),'New Post')]"
+werfolks_latestpost_link = "xpath,//span[contains(text(),'Latest')]"
+werfolks_latestpost_heading = "xpath,//span[contains(text(),'Posts')]"
+
+werfolks_add_post ="xpath,//*[@id='bx-sliding-menu-sys_add_content']//*[contains(text(),'Post')]"
+werfolks_newpost_heading = "xpath,//span[contains(text(),'Create Post')]"
+werfolks_post_name = "xpath,//*[@name='title']"
+werfolks_post_category = "xpath, //*[@id='bx-form-element-cat']//select[1]"
+werfolks_post_desc = "xpath,//*[@id='bx-form-element-text']/div[1]/div[2]/div/div/div[2]/div/p[1]" #//*[@id="bx-form-element-text"]/div[1]/div[2]/div/div/div[2]/div/p  
+werfolks_post_loc="xpath, //*[contains(@id,'_location')]"
+werfolks_select_visibility ="xpath,//*[@id='bx-form-element-allow_view_to']//select[1]"
+werfolks_new_post_submit = "xpath,//*[@id='bx-form-element-do_publish']//button"
+
