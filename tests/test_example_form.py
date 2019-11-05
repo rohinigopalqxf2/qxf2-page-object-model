@@ -12,7 +12,7 @@ from utils.Option_Parser import Option_Parser
 import conf.example_form_conf as conf
 import conf.testrail_caseid_conf as testrail_file
 
-def test_example_form(test_obj,test_run_id):
+def test_example_form(test_obj):
     "Run the test"
     try:
         #Initalize flags for tests summary
@@ -37,7 +37,7 @@ def test_example_form(test_obj,test_run_id):
         test_obj.write('Script duration: %d seconds\n'%(int(time.time()-start_time)))
         #Update TestRail
         case_id = testrail_file.test_example_form_name
-        test_obj.report_to_testrail(case_id,test_run_id,result_flag)
+        test_obj.report_to_testrail(case_id,test_obj.test_run_id,result_flag)
         test_obj.add_tesults_case("Set Name", "Sets the name in the form", "test_example_form", result_flag, "Failed to set name: %s \nOn url: %s\n"%(name,test_obj.get_current_url()), [test_obj.log_obj.log_file_dir + os.sep + test_obj.log_obj.log_file_name])
         
         #6. Set Email in form
@@ -48,7 +48,7 @@ def test_example_form(test_obj,test_run_id):
         test_obj.write('Script duration: %d seconds\n'%(int(time.time()-start_time)))
         #Update TestRail
         case_id = testrail_file.test_example_form_email
-        test_obj.report_to_testrail(case_id,test_run_id,result_flag)
+        test_obj.report_to_testrail(case_id,test_obj.test_run_id,result_flag)
         test_obj.add_tesults_case("Set Email", "Sets the email in the form", "test_example_form", result_flag, "Failed to set Email: %s \nOn url: %s\n"%(email,test_obj.get_current_url()), [], {'Email': email}, {'_Email': email})
         #7. Set Phone number in form
         result_flag = test_obj.set_phone(phone)
@@ -58,7 +58,7 @@ def test_example_form(test_obj,test_run_id):
         test_obj.write('Script duration: %d seconds\n'%(int(time.time()-start_time)))
         #Update TestRail
         case_id = testrail_file.test_example_form_phone
-        test_obj.report_to_testrail(case_id,test_run_id,result_flag)
+        test_obj.report_to_testrail(case_id,test_obj.test_run_id,result_flag)
         test_obj.add_tesults_case("Set Phone Number", "Sets the phone number in the form", "test_example_form", result_flag, "Failed to set phone number: %s \nOn url: %s\n"%(phone,test_obj.get_current_url()), [], {}, {'_Phone': phone, '_AnotherCustomField': 'Custom field value'})
 
         #8. Set Gender in form
@@ -69,7 +69,7 @@ def test_example_form(test_obj,test_run_id):
         test_obj.write('Script duration: %d seconds\n'%(int(time.time()-start_time)))
         #Update TestRail
         case_id = testrail_file.test_example_form_gender
-        test_obj.report_to_testrail(case_id,test_run_id,result_flag)
+        test_obj.report_to_testrail(case_id,test_obj.test_run_id,result_flag)
         test_obj.add_tesults_case("Set Gender", "Sets the gender in the form", "test_example_form", result_flag, "Failed to set gender: %s \nOn url: %s\n"%(gender,test_obj.get_current_url()), [])
 
         #9. Check the copyright
@@ -90,7 +90,7 @@ def test_example_form(test_obj,test_run_id):
                                                       
         #Update TestRail
         case_id = testrail_file.test_example_form
-        test_obj.report_to_testrail(case_id,test_run_id,result_flag)
+        test_obj.report_to_testrail(case_id,test_obj.test_run_id,result_flag)
         test_obj.add_tesults_case("Submit Form", "Submits the form", "test_example_form", result_flag,"Failed to submit the form \nOn url: %s"%test_obj.get_current_url(), [])
 
         #11. Check the heading on the redirect page
@@ -111,7 +111,7 @@ def test_example_form(test_obj,test_run_id):
         test_obj.write('Script duration: %d seconds\n'%(int(time.time()-start_time)))
         #Update TestRail
         case_id = testrail_file.test_example_form_footer_contact
-        test_obj.report_to_testrail(case_id,test_run_id,result_flag)
+        test_obj.report_to_testrail(case_id,test_obj.test_run_id,result_flag)
         test_obj.add_tesults_case("Contact page", "Visits the contact page and verifies the link", "test_example_form", result_flag,"\nFailed to visit the Contact page\n")
         
         #13. Print out the results
@@ -121,7 +121,7 @@ def test_example_form(test_obj,test_run_id):
         test_obj.wait(3)
         expected_pass = test_obj.result_counter
         actual_pass = test_obj.pass_counter
-        test_obj.teardown()
+        test_obj.reset()
         
     except Exception as e:
         print("Exception when trying to run test:%s"%__file__)
@@ -146,15 +146,16 @@ if __name__=='__main__':
 
         #Setup TestRail reporting
         if options.testrail_flag.lower()=='y':
-            if options.test_run_id is None:
+            if options.test_obj.test_run_id is None:
                 test_obj.write('\033[91m'+"\n\nTestRail Integration Exception: It looks like you are trying to use TestRail Integration without providing test run id. \nPlease provide a valid test run id along with test run command using -R flag and try again. for eg: pytest -X Y -R 100\n"+'\033[0m')
                 options.testrail_flag = 'N'   
-            if options.test_run_id is not None:
+            if options.test_obj.test_run_id is not None:
                 test_obj.register_testrail()
+                test_obj.set_test_run_id(options.test_run_id)
 
         if options.tesults_flag.lower()=='y':
             test_obj.register_tesults()
-        test_example_form(test_obj,options.test_run_id) 
+        test_example_form(test_obj) 
     else:
         print('ERROR: Received incorrect comand line input arguments')
         print(option_obj.print_usage())

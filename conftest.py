@@ -21,6 +21,7 @@ def test_obj(base_url,browser,browser_version,os_version,os_name,remote_flag,tes
             testrail_flag = 'N'   
         if test_run_id is not None:
             test_obj.register_testrail()
+            test_obj.set_test_run_id(test_run_id)
 
     if tesults_flag.lower()=='y':
         test_obj.register_tesults()
