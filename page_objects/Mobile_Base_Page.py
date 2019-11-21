@@ -15,7 +15,8 @@ from inspect import getargspec
 from utils.BrowserStack_Library import BrowserStack_Library
 from .DriverFactory import DriverFactory
 from utils.Test_Rail import Test_Rail
-#from page_objects import PageFactory
+from page_objects import PageFactory
+from utils import Tesults
 
 
 class Borg:
@@ -101,6 +102,14 @@ class Mobile_Base_Page(Borg,unittest.TestCase):
         self.tr_obj = Test_Rail()
         self.write('Automation registered with TestRail',level='debug')
 
+    def set_test_run_id(self,test_run_id):
+        "Set TestRail's test run id"
+        self.test_run_id = test_run_id
+
+
+    def register_tesults(self):
+        "Register Tesults with Page"
+        self.tesults_flag = True
         
     def register_browserstack(self):
         "Register Browser Stack with Page"

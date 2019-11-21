@@ -33,6 +33,33 @@ def test_obj(base_url,browser,browser_version,os_version,os_name,remote_flag,tes
     test_obj.teardown() 
    
 @pytest.fixture
+def test_obj_mobile(mobile_os_name, mobile_os_version, device_name, app_package, app_activity, remote_flag, device_flag, testrail_flag, tesults_flag, test_run_id,app_name,app_path):
+    
+    "Return an instance of Base Page that knows about the third party integrations"
+    test_obj_mobile = PageFactory.get_page_object("Zero Mobile")
+
+    #Setup and register a driver
+    test_obj_mobile.register_driver(mobile_os_name,mobile_os_version,device_name,app_package,app_activity,remote_flag,device_flag,app_name,app_path)
+    
+    #Setup TestRail reporting
+    if testrail_flag.lower()=='y':
+        if test_run_id is None:
+            test_obj.write('\033[91m'+"\n\nTestRail Integration Exception: It looks like you are trying to use TestRail Integration without providing test run id. \nPlease provide a valid test run id along with test run command using -R flag and try again. for eg: pytest -X Y -R 100\n"+'\033[0m')
+            testrail_flag = 'N'   
+        if test_run_id is not None:
+            test_obj.register_testrail()
+            test_obj.set_test_run_id(test_run_id)
+
+    if tesults_flag.lower()=='y':
+        test_obj.register_tesults()
+    
+    yield test_obj_mobile
+    
+    #Teardown
+    test_obj.wait(3)
+    test_obj.teardown() 
+   
+@pytest.fixture
 def browser(request):
     "pytest fixture for browser"
     return request.config.getoption("-B")
