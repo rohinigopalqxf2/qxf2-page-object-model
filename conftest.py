@@ -1,6 +1,7 @@
 import os,pytest
 from page_objects.PageFactory import PageFactory
 from conf import browser_os_name_conf
+from conf import base_url_conf
 from utils import post_test_reports_to_slack
 from utils.email_pytest_report import Email_Pytest_Report
 from utils import Tesults
@@ -31,7 +32,7 @@ def test_obj(base_url,browser,browser_version,os_version,os_name,remote_flag,tes
     #Teardown
     test_obj.wait(3)
     test_obj.teardown() 
-   
+
 @pytest.fixture
 def test_obj_mobile(mobile_os_name, mobile_os_version, device_name, app_package, app_activity, remote_flag, device_flag, testrail_flag, tesults_flag, test_run_id,app_name,app_path):
     
@@ -44,20 +45,21 @@ def test_obj_mobile(mobile_os_name, mobile_os_version, device_name, app_package,
     #Setup TestRail reporting
     if testrail_flag.lower()=='y':
         if test_run_id is None:
-            test_obj.write('\033[91m'+"\n\nTestRail Integration Exception: It looks like you are trying to use TestRail Integration without providing test run id. \nPlease provide a valid test run id along with test run command using -R flag and try again. for eg: pytest -X Y -R 100\n"+'\033[0m')
+            test_obj_mobile.write('\033[91m'+"\n\nTestRail Integration Exception: It looks like you are trying to use TestRail Integration without providing test run id. \nPlease provide a valid test run id along with test run command using -R flag and try again. for eg: pytest -X Y -R 100\n"+'\033[0m')
             testrail_flag = 'N'   
         if test_run_id is not None:
-            test_obj.register_testrail()
-            test_obj.set_test_run_id(test_run_id)
+            test_obj_mobile.register_testrail()
+            test_obj_mobile.set_test_run_id(test_run_id)
 
     if tesults_flag.lower()=='y':
-        test_obj.register_tesults()
+        test_obj_mobile.register_tesults()
     
     yield test_obj_mobile
     
     #Teardown
-    test_obj.wait(3)
-    test_obj.teardown() 
+    test_obj_mobile.wait(3)
+    test_obj_mobile.teardown() 
+   
    
 @pytest.fixture
 def browser(request):
@@ -237,7 +239,7 @@ def pytest_addoption(parser):
                       help="Browser. Valid options are firefox, ie and chrome")                      
     parser.addoption("-U","--app_url",
                       dest="url",
-                      default=conf.base_url,
+                      default=base_url_conf.base_url,
                       help="The url of the application")
     parser.addoption("-A","--api_url",
                       dest="url",
@@ -317,7 +319,7 @@ def pytest_addoption(parser):
     parser.addoption("-D","--app_name",
                       dest="app_name",
                       help="Enter application name to be uploaded.Ex:Bitcoin Info_com.dudam.rohan.bitcoininfo.apk.",
-                      default="Bitcoin Info_com.dudam.rohan.bitcoininfo.apk")
+                      default="Bitcoin_Info_com.dudam.rohan.bitcoininfo.apk")
     parser.addoption("-N","--app_path",
                       dest="app_path",
                       help="Enter app path")
