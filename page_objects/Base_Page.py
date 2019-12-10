@@ -135,6 +135,11 @@ class Base_Page(Borg,unittest.TestCase):
         calling_file = inspect.stack()[-1][1]
         if 'runpy' or 'string' in calling_file:
             calling_file = inspect.stack()[4][3]
+            all_stack_frames = inspect.stack()
+            caller_stack_frame = all_stack_frames[1]
+            caller_name = caller_stack_frame[3]
+            print(inspect.stack()[4][3])
+            print("This is from Base_page and my caller method name is", caller_name)
         calling_filename = calling_file.split(os.sep)
         #This logic bought to you by windows + cygwin + git bash 
         if len(calling_filename) == 1: #Needed for 

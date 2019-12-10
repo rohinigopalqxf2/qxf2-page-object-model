@@ -38,7 +38,10 @@ class Base_Logging():
         calling_file = inspect.stack()[-1][1]                  
         if 'runpy' in calling_file:
             calling_file = inspect.stack()[4][1]
-        
+            all_stack_frames = inspect.stack()
+            caller_stack_frame = all_stack_frames[1]
+            caller_name = caller_stack_frame[3]
+            print("This is from Base_Loggin and my caller method name is", caller_name)
         calling_filename = calling_file.split(os.sep)
 
         #This logic bought to you by windows + cygwin + git bash 
@@ -53,18 +56,21 @@ class Base_Logging():
     def write(self,msg,level='info'):
         "Write out a message"
         fname = inspect.stack()[2][3] #May be use a entry-exit decorator instead    
-        f1name = inspect.stack()[3][1]    
+        f1name = inspect.stack()[3][1] 
+        all_stack_frames = inspect.stack()
+        caller_stack_frame = all_stack_frames[3]
+        caller_name = caller_stack_frame[3]   
         d = {'caller_func': fname}      
-        df =  {'caller_func': f1name}                 
+        df =  {'caller_func': caller_name}                 
         if level.lower()== 'debug': 
-            logger.debug("{module} | {msg} |{name}",module=d['caller_func'],msg=msg, name=df['caller_func'])                      
+            logger.debug("{module}|{name} | {msg} ",module=d['caller_func'],msg=msg, name=df['caller_func'])                      
         elif level.lower()== 'info':
-            logger.info("{module} | {msg} |{name}",module=d['caller_func'],msg=msg, name=df['caller_func'])             
+            logger.info("{module} |{name} | {msg}",module=d['caller_func'],msg=msg, name=df['caller_func'])             
         elif level.lower()== 'warn' or level.lower()=='warning':           
-            logger.warning("{module} | {msg} |{name}",module=d['caller_func'],msg=msg, name=df['caller_func'])   
+            logger.warning("{module} |{name} | {msg}",module=d['caller_func'],msg=msg, name=df['caller_func'])    
         elif level.lower()== 'error':
-            logger.error("{module} | {msg} |{name}",module=d['caller_func'],msg=msg, name=df['caller_func'])             
+            logger.error("{module} |{name} | {msg}",module=d['caller_func'],msg=msg, name=df['caller_func'])              
         elif level.lower()== 'critical':   
-            logger.critical("{module} | {msg} |{name}",module=d['caller_func'],msg=msg, name=df['caller_func'])              
+            logger.critical("{module} |{name} | {msg}",module=d['caller_func'],msg=msg, name=df['caller_func'])                
         else:
             logger.critical("Unknown level passed for the msg: {}", msg)
