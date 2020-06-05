@@ -14,16 +14,10 @@ class Footer_Object:
     "Page object for the footer class"
 
     #locators
-
-
-class Footer_Object:
-    "Page object for the footer class"
-
-    #locators
     footer_menu = locators.footer_menu
     copyright_text = locators.copyright_text
     copyright_start_year = "2013"
-    
+
 
     @Wrapit._exceptionHandler
     def goto_footer_link(self,link_name,expected_url_string=None):
@@ -48,7 +42,7 @@ class Footer_Object:
         copyright = copyright.strip()
         #NOTE: We strip out the special '&copy;
         copyright = 'Qxf2' + copyright[:-1].split('Qxf2')[-1]
-                    
+
         return copyright
 
 
@@ -65,13 +59,13 @@ class Footer_Object:
         result_flag = False
         actual_copyright = self.get_copyright()
         self.write('Copyright text: {}'.format(actual_copyright),'debug')
-        #Note: We need to maintain this at 2015 because we promised to not change this page 
-        expected_copyright = "Qxf2 Services " + self.copyright_start_year + " - 2015" 
-    
+        #Note: We need to maintain this at 2015 because we promised to not change this page
+        expected_copyright = "Qxf2 Services " + self.copyright_start_year + " - 2015"
+
         if actual_copyright == expected_copyright:
             result_flag = True
 
         return result_flag
 
 
-    
+
